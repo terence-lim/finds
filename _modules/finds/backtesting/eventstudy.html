@@ -39,19 +39,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.database.html">finds.database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.structured.html">finds.structured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.backtesting.html">finds.backtesting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.unstructured.html">finds.unstructured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.readers.html">finds.readers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -102,17 +98,17 @@
 <span class="kn">from</span> <span class="nn">patsy.builtins</span> <span class="kn">import</span> <span class="n">Q</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Boolean</span><span class="p">,</span> <span class="n">Column</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">finds.structured</span> <span class="kn">import</span> <span class="n">Structured</span>
+<span class="kn">from</span> <span class="nn">finds.structured.structured</span> <span class="kn">import</span> <span class="n">Structured</span>
 <span class="kn">from</span> <span class="nn">finds.structured.stocks</span> <span class="kn">import</span> <span class="n">Stocks</span>
 <span class="kn">from</span> <span class="nn">finds.structured.benchmarks</span> <span class="kn">import</span> <span class="n">Benchmarks</span>
 <span class="kn">from</span> <span class="nn">finds.database.sql</span> <span class="kn">import</span> <span class="n">SQL</span>
-<span class="kn">from</span> <span class="nn">finds.filters</span> <span class="kn">import</span> <span class="n">FFT</span>
-<span class="kn">from</span> <span class="nn">finds.plots</span> <span class="kn">import</span> <span class="n">plot_date</span><span class="p">,</span> <span class="n">plot_bands</span>
+<span class="kn">from</span> <span class="nn">finds.recipes.filters</span> <span class="kn">import</span> <span class="n">fft_align</span>
+<span class="kn">from</span> <span class="nn">finds.utils.plots</span> <span class="kn">import</span> <span class="n">plot_date</span><span class="p">,</span> <span class="n">plot_bands</span>
 
 <span class="n">_VERBOSE</span> <span class="o">=</span> <span class="mi">1</span>
 
 <div class="viewcode-block" id="EventStudy"><a class="viewcode-back" href="../../../finds.backtesting.eventstudy.html#finds.backtesting.eventstudy.EventStudy">[docs]</a><span class="k">class</span> <span class="nc">EventStudy</span><span class="p">(</span><span class="n">Structured</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to support statistical tests of event studies</span>
+    <span class="sd">&quot;&quot;&quot;Class to support statistical tests of event studies</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      sql: connection to user database to store results</span>
@@ -123,7 +119,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">:</span> <span class="n">SQL</span><span class="p">,</span> <span class="n">bench</span><span class="p">:</span> <span class="n">Benchmarks</span><span class="p">,</span> <span class="n">stocks</span><span class="p">:</span> <span class="n">Stocks</span><span class="p">,</span>
                  <span class="n">max_date</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;events&#39;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize class instance for event study calculations&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Initialize class instance for event study calculations&quot;&quot;&quot;</span>
         <span class="n">table</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span>
                           <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
                           <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
@@ -152,7 +148,7 @@
 
 <div class="viewcode-block" id="EventStudy.__call__"><a class="viewcode-back" href="../../../finds.backtesting.eventstudy.html#finds.backtesting.eventstudy.EventStudy.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
                  <span class="n">right</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">post</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">date_field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct event window market-adjusted returns where valid/available</span>
+        <span class="sd">&quot;&quot;&quot;Construct event window market-adjusted returns where valid/available</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          label: Unique label (used for graph labels and table name)</span>
@@ -211,11 +207,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span></div>
 
     <span class="k">def</span> <span class="nf">_event_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct name of table to read/write event returns, given label&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Construct name of table to read/write event returns, given label&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_</span><span class="o">.</span><span class="n">key</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">),</span>
     
 <div class="viewcode-block" id="EventStudy.write"><a class="viewcode-back" href="../../../finds.backtesting.eventstudy.html#finds.backtesting.eventstudy.EventStudy.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Store daily cumulative returns in new user table&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Store daily cumulative returns in new user table&quot;&quot;&quot;</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">df</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ar</span><span class="p">)</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;permno&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">],</span>
                                      <span class="n">value_vars</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span>
@@ -232,7 +228,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EventStudy.read"><a class="viewcode-back" href="../../../finds.backtesting.eventstudy.html#finds.backtesting.eventstudy.EventStudy.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">post</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetch daily cumulative abnormal returns series from user table</span>
+        <span class="sd">&quot;&quot;&quot;Fetch daily cumulative abnormal returns series from user table</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            label: name suffix of table to retrieve from</span>
@@ -256,29 +252,29 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">post</span> <span class="o">=</span> <span class="n">post</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></div>
 
-    <span class="n">_models</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bhar&#39;</span><span class="p">,</span> <span class="s1">&#39;car&#39;</span><span class="p">,</span> <span class="s1">&#39;sbhar&#39;</span><span class="p">,</span> <span class="s1">&#39;scar&#39;</span><span class="p">,</span>
-               <span class="s1">&#39;adj-sbhar&#39;</span><span class="p">,</span> <span class="s1">&#39;adj-scar&#39;</span><span class="p">,</span> <span class="s1">&#39;conv-sbhar&#39;</span><span class="p">,</span> <span class="s1">&#39;conv-scar&#39;</span><span class="p">]</span>
+    <span class="n">_models</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sbhar&#39;</span><span class="p">,</span> <span class="s1">&#39;scar&#39;</span><span class="p">]</span>
+    <span class="c1"># &#39;bhar&#39;, &#39;car&#39;, &#39;adj-sbhar&#39;, &#39;adj-scar&#39;, &#39;conv-sbhar&#39;, &#39;conv-scar&#39;]</span>
     
 <div class="viewcode-block" id="EventStudy.fit"><a class="viewcode-back" href="../../../finds.backtesting.eventstudy.html#finds.backtesting.eventstudy.EventStudy.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;scar&#39;</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> 
             <span class="n">rho</span> <span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute car or bhar, and summary statistics from subset of obs</span>
+        <span class="sd">&quot;&quot;&quot;Compute car, or bhar, and summary statistics of selected rows</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            model: name of predefined model to compute summary statistics</span>
-<span class="sd">            rows: Subset of rows to evaluate; empty list selects all rows</span>
-<span class="sd">            car: Whether to evaluate CAR (True) or BHAR (False)</span>
-<span class="sd">            rho: assumed correlation of event returns.  If None, then compute</span>
-<span class="sd">                 from max convolution of post-announcement returns</span>
+<span class="sd">          model : name of predefined model to compute summary statistics</span>
+<span class="sd">          rows : Subset of rows to evaluate; empty list selects all rows</span>
+<span class="sd">          car : Whether to evaluate CAR (True) or BHAR (False)</span>
+<span class="sd">          rho : Average cross correlation of event returns.  If None, then </span>
+<span class="sd">                 compute from max convolution of post-announcement returns</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Dict of summary statistics of full and subsamples</span>
+<span class="sd">          Dict of summary statistics of full and subsamples</span>
 
-<span class="sd">            - &#39;window&#39;, &#39;window-tvalue&#39; are CAR at end of event window</span>
-<span class="sd">            - &#39;post&#39;, &#39;post-tvalue&#39; are CAR from event end till post-drift end</span>
-<span class="sd">            - &#39;car&#39;, &#39;car-stderr&#39; are daily CAR from beginning of announcement</span>
-<span class="sd">            - &#39;rows&#39; is number of input rows</span>
-<span class="sd">            - &#39;days&#39; is number of unique dates (same announce dates are grouped)</span>
-<span class="sd">            - &#39;effective&#39; is the number of days after correlation effects</span>
+<span class="sd">          - &#39;window&#39;, &#39;window-tvalue&#39; are CAR at end of event window</span>
+<span class="sd">          - &#39;post&#39;, &#39;post-tvalue&#39; are CAR from event end till post-drift end</span>
+<span class="sd">          - &#39;car&#39;, &#39;car-stderr&#39; are daily CAR from beginning of announcement</span>
+<span class="sd">          - &#39;rows&#39; is number of input rows</span>
+<span class="sd">          - &#39;days&#39; is number of unique dates (same announce dates are grouped)</span>
+<span class="sd">          - &#39;effective&#39; is the number of days after correlation effects</span>
 
 <span class="sd">        TODO names of models:</span>
 
@@ -291,24 +287,24 @@
 <span class="sd">        - Kolari and Pynnonen (2010) eqn[3] cross-sectionally adjusted </span>
 <span class="sd">          Patell or BMP with avg correlation: multiply variance by 1 + (p*(n-1))</span>
 <span class="sd">        - Kolari, Pape, Pynnonen (2018) eqn[15] adjusted by average overlap (tau)</span>
-<span class="sd">          and average covariance ratio (i.e. correlation rho)</span>
+<span class="sd">          and average covariance ratio (correlation rho)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">#assert model in self._models</span>
         <span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
-        <span class="n">is_car</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;car&#39;</span><span class="p">)</span> 
+        <span class="n">is_car</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;car&#39;</span><span class="p">)</span>
         <span class="n">rets</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">car</span> <span class="k">if</span> <span class="n">is_car</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">bhar</span><span class="p">)[</span><span class="n">cols</span><span class="p">]</span>
         <span class="n">cumret</span> <span class="o">=</span> <span class="p">(</span><span class="n">rets</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="k">else</span> <span class="n">rets</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cumret</span><span class="p">))</span>
         <span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">cumret</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]))</span>
         <span class="n">e</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">cumret</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]))</span>
-        <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span>
-        <span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span>    <span class="c1"># total period including announcement and post</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span>   <span class="c1"># length of post-announcement period</span>
 
         <span class="c1"># if announce date not a trading day, set to (after close of) previous</span>
         <span class="n">cumret</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bd</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">cumret</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
 
-        <span class="c1"># portfolio method for same announcement date</span>
+        <span class="c1"># portfolio method for same announcement dates</span>
         <span class="n">cumret</span> <span class="o">=</span> <span class="n">cumret</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
         <span class="c1"># Average Cumulative AR</span>
@@ -320,10 +316,10 @@
         <span class="n">date_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">date_idx</span><span class="p">[</span><span class="n">cumret</span><span class="o">.</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
         <span class="n">overlap</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">date_idx</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
-             <span class="n">x</span> <span class="o">=</span> <span class="n">D</span> <span class="o">-</span> <span class="p">(</span><span class="n">date_idx</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span>
-             <span class="n">x</span><span class="p">[</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+             <span class="n">x</span> <span class="o">=</span> <span class="n">D</span> <span class="o">-</span> <span class="p">(</span><span class="n">date_idx</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span>  <span class="c1"># difference in dates less than D</span>
+             <span class="n">x</span><span class="p">[</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>                  <span class="c1"># truncate &quot;negative&quot; overlaps</span>
              <span class="n">overlap</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-        <span class="n">tau</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span> <span class="o">/</span> <span class="n">D</span>
+        <span class="n">tau</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">overlap</span><span class="p">)</span> <span class="o">/</span> <span class="n">D</span>   <span class="c1"># average of overlap days, divided by max length</span>
 
         <span class="c1"># 2. compute ratio of average covariance to variance as average max corr</span>
         <span class="k">if</span> <span class="n">rho</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -331,16 +327,11 @@
                      <span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>\
                      <span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">window</span><span class="p">:]</span>\
                      <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-            <span class="n">corr</span><span class="p">,</span> <span class="n">disp</span> <span class="o">=</span> <span class="n">FFT</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">rets</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="n">corr</span><span class="p">,</span> <span class="n">disp</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">fft_align</span><span class="p">(</span><span class="n">rets</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
             <span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">corr</span><span class="p">)</span>
 
         <span class="c1"># 3. apply simplification of eqn(15) of Kolari et al 2018</span>
         <span class="n">effective</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cumret</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">rho</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cumret</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span>
-
-        <span class="c1"># - unscaled for economic, scaled for statistical</span>
-        <span class="c1"># - ADJ-BMP MKT method is simple xc t-test of SCAR adjusted by avg corr</span>
-        <span class="c1"># - table show actual means, but t-values of SCAR with and without corr</span>
-        <span class="c1"># - plot shows SCAR with corr bands</span>
 
         <span class="n">stderr</span> <span class="o">=</span> <span class="n">cumret</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">effective</span><span class="p">)</span>
         <span class="n">posterr</span> <span class="o">=</span> <span class="p">(</span><span class="n">cumret</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">window</span><span class="p">:]</span>\
@@ -370,7 +361,7 @@
         <span class="k">return</span> <span class="n">summary</span></div>
 
 <div class="viewcode-block" id="EventStudy.write_summary"><a class="viewcode-back" href="../../../finds.backtesting.eventstudy.html#finds.backtesting.eventstudy.EventStudy.write_summary">[docs]</a>    <span class="k">def</span> <span class="nf">write_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save event study summary to database</span>
+        <span class="sd">&quot;&quot;&quot;Save event study summary to database</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            overwrite: Whether to overwrite, else append rows</span>
@@ -392,7 +383,7 @@
         <span class="k">return</span> <span class="n">summ</span></div>
 
 <div class="viewcode-block" id="EventStudy.read_summary"><a class="viewcode-back" href="../../../finds.backtesting.eventstudy.html#finds.backtesting.eventstudy.EventStudy.read_summary">[docs]</a>    <span class="k">def</span> <span class="nf">read_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load event study summary from database</span>
+        <span class="sd">&quot;&quot;&quot;Load event study summary from database</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            label: Name of event to retrieve; if blank, retrieve all events</span>
@@ -410,7 +401,7 @@
              <span class="n">ax</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;best&#39;</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
              <span class="n">c</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">vline</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
              <span class="n">hline</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.96</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot cumulative abnormal returns, drift and confidence bands</span>
+        <span class="sd">&quot;&quot;&quot;Plot cumulative abnormal returns, drift and confidence bands</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            model: Name of model to plot computed results</span>
@@ -464,7 +455,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Terence Lim.</p>
+    <p>&#169; Copyright 2022-2024, Terence Lim.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

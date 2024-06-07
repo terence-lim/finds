@@ -42,7 +42,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="finds.database.html">finds.database</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="finds.database.sql.html">finds.database.sql</a></li>
@@ -53,6 +53,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#finds.database.mongodb.MongoDB.show"><code class="docutils literal notranslate"><span class="pre">MongoDB.show()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#finds.database.mongodb.parse_where"><code class="docutils literal notranslate"><span class="pre">parse_where()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="finds.database.database.html">finds.database.database</a></li>
@@ -62,12 +63,8 @@
 <li class="toctree-l1"><a class="reference internal" href="finds.backtesting.html">finds.backtesting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.unstructured.html">finds.unstructured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.readers.html">finds.readers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -174,10 +171,10 @@ $type   Selects documents if a field is of the specified type.
 </pre></div>
 </div>
 <p>/etc/mongod.conf - configuration file for MongoDB:</p>
-<blockquote>
-<div><p>dbPath -  where the database files stored (/var/lib/mongodb)
-systemLog - logging options (/var/log/mongodb/mongod.log)</p>
-</div></blockquote>
+<ul class="simple">
+<li><p>dbPath:  where the database files stored (/var/lib/mongodb)</p></li>
+<li><p>systemLog: logging options (/var/log/mongodb/mongod.log)</p></li>
+</ul>
 <dl class="py method">
 <dt class="sig sig-object py" id="finds.database.mongodb.MongoDB.drop">
 <span class="sig-name descname"><span class="pre">drop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/finds/database/mongodb.html#MongoDB.drop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.database.mongodb.MongoDB.drop" title="Permalink to this definition"></a></dt>
@@ -205,6 +202,30 @@ systemLog - logging options (/var/log/mongodb/mongod.log)</p>
 
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="finds.database.mongodb.parse_where">
+<span class="sig-prename descclassname"><span class="pre">finds.database.mongodb.</span></span><span class="sig-name descname"><span class="pre">parse_where</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">where</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="_modules/finds/database/mongodb.html#parse_where"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.database.mongodb.parse_where" title="Permalink to this definition"></a></dt>
+<dd><p>Helper to parse dict or list-like where clause to pymongo command str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>where</strong> – keyword name may have operator suffix:</p></li>
+<li><p><strong>name_eq</strong> (<em>-</em>) – be equal to the value</p></li>
+<li><p><strong>name_ne</strong> (<em>-</em>) – be equal to the value</p></li>
+<li><p><strong>name_lt</strong> (<em>-</em>) – less than the value</p></li>
+<li><p><strong>name_le</strong> (<em>-</em>) – less than or equal to the value</p></li>
+<li><p><strong>name_gt</strong> (<em>-</em>) – greater than the value</p></li>
+<li><p><strong>name_ge</strong> (<em>-</em>) – greater than or equal to the value</p></li>
+<li><p><strong>name_in</strong> (<em>-</em>) – be included in the value</p></li>
+<li><p><strong>name_notin</strong> (<em>-</em>) – not be included in the value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary of conditions in pymongo format</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -218,7 +239,7 @@ systemLog - logging options (/var/log/mongodb/mongod.log)</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Terence Lim.</p>
+    <p>&#169; Copyright 2022-2024, Terence Lim.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

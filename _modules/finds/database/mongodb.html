@@ -39,19 +39,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.database.html">finds.database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.structured.html">finds.structured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.backtesting.html">finds.backtesting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.unstructured.html">finds.unstructured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.readers.html">finds.readers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -85,11 +81,52 @@
 
 <span class="sd">MIT License</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
 <span class="kn">from</span> <span class="nn">.database</span> <span class="kn">import</span> <span class="n">Database</span>
 
+<div class="viewcode-block" id="parse_where"><a class="viewcode-back" href="../../../finds.database.mongodb.html#finds.database.mongodb.parse_where">[docs]</a><span class="k">def</span> <span class="nf">parse_where</span><span class="p">(</span><span class="n">where</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Helper to parse dict or list-like where clause to pymongo command str</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        where: keyword name may have operator suffix:</span>
+
+<span class="sd">        - name_eq:     be equal to the value</span>
+<span class="sd">        - name_ne:     be equal to the value</span>
+<span class="sd">        - name_lt:     less than the value</span>
+<span class="sd">        - name_le:     less than or equal to the value</span>
+<span class="sd">        - name_gt:     greater than the value</span>
+<span class="sd">        - name_ge:     greater than or equal to the value</span>
+<span class="sd">        - name_in:     be included in the value</span>
+<span class="sd">        - name_notin:  not be included in the value</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary of conditions in pymongo format</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">where</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>    <span class="c1"># where dict of {key: condition}&#39;s =&gt;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">where</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>    <span class="c1"># parse condition to test key value:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>     <span class="c1"># if dict: </span>
+                <span class="n">result</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>    <span class="c1"># if set: key isin set</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;$in&#39;</span> <span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">)}</span>
+            <span class="k">elif</span> <span class="n">types</span><span class="o">.</span><span class="n">is_list_like</span><span class="p">(</span><span class="n">v</span><span class="p">):</span> <span class="c1"># if tuple:</span>
+                <span class="k">assert</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>      <span class="c1"># inclusive bounds on key value</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;$gte&#39;</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;$lte&#39;</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+            <span class="k">else</span><span class="p">:</span>                       <span class="c1"># if scalar: key value equals</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;$eq&#39;</span><span class="p">:</span> <span class="n">v</span><span class="p">}</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">where</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>     <span class="c1"># where string =&gt; test if key name exists</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="n">where</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$exists&#39;</span> <span class="p">:</span> <span class="kc">True</span><span class="p">}}</span>
+    <span class="k">elif</span> <span class="n">where</span><span class="p">:</span>                      <span class="c1"># where list-like =&gt; test if all keys exist</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$exists&#39;</span> <span class="p">:</span> <span class="kc">True</span><span class="p">}</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">where</span><span class="p">}</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;[where] must be a dict, array-like or str&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+                        
+
 <div class="viewcode-block" id="MongoDB"><a class="viewcode-back" href="../../../finds.database.mongodb.html#finds.database.mongodb.MongoDB">[docs]</a><span class="k">class</span> <span class="nc">MongoDB</span><span class="p">(</span><span class="n">Database</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface to pymongo</span>
+    <span class="sd">&quot;&quot;&quot;Interface to pymongo</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        database: Name of database in MongoDB</span>
@@ -161,8 +198,8 @@
 
 <span class="sd">    /etc/mongod.conf - configuration file for MongoDB:</span>
 
-<span class="sd">      dbPath -  where the database files stored (/var/lib/mongodb)</span>
-<span class="sd">      systemLog - logging options (/var/log/mongodb/mongod.log)</span>
+<span class="sd">    - dbPath:  where the database files stored (/var/lib/mongodb)</span>
+<span class="sd">    - systemLog: logging options (/var/log/mongodb/mongod.log)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">27017</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -173,7 +210,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 
 <div class="viewcode-block" id="MongoDB.show"><a class="viewcode-back" href="../../../finds.database.mongodb.html#finds.database.mongodb.MongoDB.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">database</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List all database or collection (table) names</span>
+        <span class="sd">&quot;&quot;&quot;List all database or collection (table) names</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            database: List collections in (blank to list all databases)</span>
@@ -183,7 +220,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">[</span><span class="n">database</span><span class="p">]</span><span class="o">.</span><span class="n">list_collection_names</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="MongoDB.drop"><a class="viewcode-back" href="../../../finds.database.mongodb.html#finds.database.mongodb.MongoDB.drop">[docs]</a>    <span class="k">def</span> <span class="nf">drop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">database</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Drop a database or collection (table) by name</span>
+        <span class="sd">&quot;&quot;&quot;Drop a database or collection (table) by name</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            database: Name of database to drop collection</span>

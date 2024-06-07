@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="finds.readers.fomcreader" href="finds.readers.fomcreader.html" />
-    <link rel="prev" title="finds.readers.edgar" href="finds.readers.edgar.html" /> 
+    <link rel="prev" title="finds.readers.taq" href="finds.readers.taq.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,20 +42,19 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="finds.database.html">finds.database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.structured.html">finds.structured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.backtesting.html">finds.backtesting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.unstructured.html">finds.unstructured</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="finds.readers.html">finds.readers</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="finds.readers.readers.html">finds.readers.readers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.readers.alfred.html">finds.readers.alfred</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.readers.bea.html">finds.readers.bea</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.readers.taq.html">finds.readers.taq</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finds.readers.edgar.html">finds.readers.edgar</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">finds.readers.ffreader</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#finds.readers.ffreader.FFReader"><code class="docutils literal notranslate"><span class="pre">FFReader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#finds.readers.ffreader.FFReader.__getitem__"><code class="docutils literal notranslate"><span class="pre">FFReader.__getitem__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#finds.readers.ffreader.FFReader.fetch"><code class="docutils literal notranslate"><span class="pre">FFReader.fetch()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#finds.readers.ffreader.FFReader.keys"><code class="docutils literal notranslate"><span class="pre">FFReader.keys()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#finds.readers.ffreader.FFReader.sectoring"><code class="docutils literal notranslate"><span class="pre">FFReader.sectoring()</span></code></a></li>
@@ -66,16 +65,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="finds.readers.fomcreader.html">finds.readers.fomcreader</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finds.readers.lmreader.html">finds.readers.lmreader</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.readers.sectoring.html">finds.readers.sectoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finds.readers.readers.html">finds.readers.readers</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -110,17 +105,22 @@
 <p>Copyright 2022-2023 Terence Lim</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="finds.readers.ffreader.FFReader">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finds.readers.ffreader.</span></span><span class="sig-name descname"><span class="pre">FFReader</span></span><a class="reference internal" href="_modules/finds/readers/ffreader.html#FFReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.readers.ffreader.FFReader" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finds.readers.ffreader.</span></span><span class="sig-name descname"><span class="pre">FFReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/finds/readers/ffreader.html#FFReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.readers.ffreader.FFReader" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Wraps over pandas_datareader to load FamaFrench factors from website</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>monthly</strong> (<em>daily</em><em>,</em>) – List of common FF factors/industries</p>
-</dd>
-</dl>
+<p>Hints for using pandas datareader:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pandas_datareader.famafrench</span> <span class="kn">import</span> <span class="n">FamaFrenchReader</span> <span class="k">as</span> <span class="n">FFR</span>
+<span class="n">mkt</span> <span class="o">=</span> <span class="n">FFR</span><span class="p">(</span><span class="s1">&#39;F-F_Research_Data_Factors&#39;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1900</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">2099</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="finds.readers.ffreader.FFReader.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/finds/readers/ffreader.html#FFReader.__getitem__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.readers.ffreader.FFReader.__getitem__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="finds.readers.ffreader.FFReader.fetch">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">19260101</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">20271231</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_formatter:</span> <span class="pre">~typing.Callable</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">FFReader.&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/finds/readers/ffreader.html#FFReader.fetch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.readers.ffreader.FFReader.fetch" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_formatter:</span> <span class="pre">~typing.Callable</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">FFReader.&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/finds/readers/ffreader.html#FFReader.fetch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.readers.ffreader.FFReader.fetch" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieve item and return as DataFrame</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -133,12 +133,15 @@
 <li><p><strong>date_formatter</strong> – to reformat dates, e.g. bd.offset or bd.endmo</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame of asset returns (converted to decimal, not percentages)</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="finds.readers.ffreader.FFReader.keys">
-<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/finds/readers/ffreader.html#FFReader.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.readers.ffreader.FFReader.keys" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/finds/readers/ffreader.html#FFReader.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.readers.ffreader.FFReader.keys" title="Permalink to this definition"></a></dt>
 <dd><p>Return names of all available datasets</p>
 </dd></dl>
 
@@ -172,12 +175,14 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="finds.readers.ffreader.FFReader.daily">
 <span class="sig-name descname"><span class="pre">daily</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('F-F_Research_Data_5_Factors_2x3_daily',</span> <span class="pre">0,</span> <span class="pre">''),</span> <span class="pre">('F-F_Research_Data_Factors_daily',</span> <span class="pre">0,</span> <span class="pre">''),</span> <span class="pre">('F-F_Momentum_Factor_daily',</span> <span class="pre">0,</span> <span class="pre">''),</span> <span class="pre">('F-F_LT_Reversal_Factor_daily',</span> <span class="pre">0,</span> <span class="pre">''),</span> <span class="pre">('F-F_ST_Reversal_Factor_daily',</span> <span class="pre">0,</span> <span class="pre">''),</span> <span class="pre">('49_Industry_Portfolios_daily',</span> <span class="pre">0,</span> <span class="pre">'49vw'),</span> <span class="pre">('48_Industry_Portfolios_daily',</span> <span class="pre">0,</span> <span class="pre">'48vw'),</span> <span class="pre">('49_Industry_Portfolios_daily',</span> <span class="pre">1,</span> <span class="pre">'49ew'),</span> <span class="pre">('48_Industry_Portfolios_daily',</span> <span class="pre">1,</span> <span class="pre">'48ew')]</span></em><a class="headerlink" href="#finds.readers.ffreader.FFReader.daily" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Common daily FF series, with subset index and a suggested suffix</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="finds.readers.ffreader.FFReader.monthly">
 <span class="sig-name descname"><span class="pre">monthly</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('F-F_Research_Data_5_Factors_2x3',</span> <span class="pre">0,</span> <span class="pre">'(mo)'),</span> <span class="pre">('F-F_Research_Data_Factors',</span> <span class="pre">0,</span> <span class="pre">'(mo)'),</span> <span class="pre">('F-F_Momentum_Factor',</span> <span class="pre">0,</span> <span class="pre">'(mo)'),</span> <span class="pre">('F-F_LT_Reversal_Factor',</span> <span class="pre">0,</span> <span class="pre">'(mo)'),</span> <span class="pre">('F-F_ST_Reversal_Factor',</span> <span class="pre">0,</span> <span class="pre">'(mo)')]</span></em><a class="headerlink" href="#finds.readers.ffreader.FFReader.monthly" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Common monthly FF series, with subset index and a suggested suffix</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -187,14 +192,14 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="finds.readers.edgar.html" class="btn btn-neutral float-left" title="finds.readers.edgar" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="finds.readers.taq.html" class="btn btn-neutral float-left" title="finds.readers.taq" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="finds.readers.fomcreader.html" class="btn btn-neutral float-right" title="finds.readers.fomcreader" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Terence Lim.</p>
+    <p>&#169; Copyright 2022-2024, Terence Lim.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

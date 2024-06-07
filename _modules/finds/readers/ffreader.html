@@ -39,19 +39,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.database.html">finds.database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.structured.html">finds.structured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.backtesting.html">finds.backtesting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.unstructured.html">finds.unstructured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.readers.html">finds.readers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -92,14 +88,33 @@
 <span class="kn">import</span> <span class="nn">zipfile</span>
 <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">.readers</span> <span class="kn">import</span> <span class="n">requests_get</span>
+<span class="kn">import</span> <span class="nn">requests</span>
 
 <div class="viewcode-block" id="FFReader"><a class="viewcode-back" href="../../../finds.readers.ffreader.html#finds.readers.ffreader.FFReader">[docs]</a><span class="k">class</span> <span class="nc">FFReader</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wraps over pandas_datareader to load FamaFrench factors from website</span>
+    <span class="sd">&quot;&quot;&quot;Wraps over pandas_datareader to load FamaFrench factors from website</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        daily, monthly: List of common FF factors/industries</span>
+<span class="sd">    Hints for using pandas datareader:</span>
+<span class="sd">    ::</span>
+
+<span class="sd">       from pandas_datareader.famafrench import FamaFrenchReader as FFR</span>
+<span class="sd">       mkt = FFR(&#39;F-F_Research_Data_Factors&#39;, start=1900, end=2099).read()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read data for symbol into class instance&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">pdr</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">FamaFrenchReader</span><span class="p">(</span><span class="n">symbol</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;1900-01-01&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">descr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;DESCR&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    
+<div class="viewcode-block" id="FFReader.__getitem__"><a class="viewcode-back" href="../../../finds.readers.ffreader.html#finds.readers.ffreader.FFReader.__getitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">descr</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">descr</span>
 
     <span class="n">daily</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;F-F_Research_Data_5_Factors_2x3_daily&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
@@ -112,6 +127,8 @@
         <span class="p">(</span><span class="s1">&#39;49_Industry_Portfolios_daily&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;49ew&#39;</span><span class="p">),</span> <span class="c1">#  value-weighted vs</span>
         <span class="p">(</span><span class="s1">&#39;48_Industry_Portfolios_daily&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;48ew&#39;</span><span class="p">),</span> <span class="c1">#  equal-weighted</span>
     <span class="p">]</span>
+    <span class="sd">&quot;&quot;&quot;Common daily FF series, with subset index and a suggested suffix&quot;&quot;&quot;</span>
+
     
     <span class="n">monthly</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;F-F_Research_Data_5_Factors_2x3&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;(mo)&#39;</span><span class="p">),</span>
@@ -120,11 +137,12 @@
         <span class="p">(</span><span class="s1">&#39;F-F_LT_Reversal_Factor&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;(mo)&#39;</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;F-F_ST_Reversal_Factor&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;(mo)&#39;</span><span class="p">),</span>
     <span class="p">]</span>
+    <span class="sd">&quot;&quot;&quot;Common monthly FF series, with subset index and a suggested suffix&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="FFReader.sectoring"><a class="viewcode-back" href="../../../finds.readers.ffreader.html#finds.readers.ffreader.FFReader.sectoring">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">sectoring</span><span class="p">(</span><span class="n">scheme</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load FamaFrench sectoring based on sic-4, from website or zipfile</span>
+        <span class="sd">&quot;&quot;&quot;Load FamaFrench sectoring based on sic-4, from website or zipfile</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          scheme: in {codes5, codes10, 12, 17, 30, 38, 48, 49}</span>
@@ -149,11 +167,14 @@
 <span class="sd">            2010-2019 Meat products</span>
 <span class="sd">            2020-2029 Dairy products</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># if no source url provided, use Dartmouth website base URL</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">source</span><span class="p">:</span>
             <span class="n">prefix_</span> <span class="o">=</span> <span class="s2">&quot;https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/&quot;</span>
             <span class="n">source</span> <span class="o">=</span> <span class="n">prefix_</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;ftp/Sic</span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">.zip&quot;</span>
+
+        <span class="c1"># Handle cases where source is a base URL or a local zip file</span>
         <span class="k">if</span> <span class="n">source</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">):</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">requests_get</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
             <span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
             <span class="n">subfile</span> <span class="o">=</span> <span class="s1">&#39;Sic&#39;</span> <span class="o">+</span> <span class="n">scheme</span> <span class="o">+</span> <span class="s1">&#39;.txt&#39;</span>
             <span class="n">open_</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">open</span>
@@ -165,6 +186,7 @@
                 <span class="n">open_</span> <span class="o">=</span> <span class="nb">open</span>
                 <span class="n">subfile</span> <span class="o">=</span> <span class="n">source</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;description&#39;</span><span class="p">,</span><span class="s1">&#39;end&#39;</span><span class="p">])</span>
+        
         <span class="k">with</span> <span class="n">open_</span><span class="p">(</span><span class="n">subfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>   <span class="c1"># open text subfile from zip archive</span>
             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">items</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
@@ -190,7 +212,7 @@
         <span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
         <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Other&#39;</span><span class="p">,</span> <span class="n">other</span><span class="p">]</span>
         <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">next_sic2</span><span class="p">)</span> <span class="p">,[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Other&#39;</span><span class="p">,</span> <span class="n">other</span><span class="p">]</span>
-        
+
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">labels</span><span class="o">.</span><span class="n">name</span><span class="p">))</span> <span class="o">&lt;</span> <span class="nb">int</span><span class="p">(</span><span class="n">scheme</span><span class="p">[</span><span class="mi">5</span><span class="p">:]):</span>  <span class="c1"># &quot;Other&quot; has no sics</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">next_sic2</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
@@ -204,42 +226,35 @@
                     <span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">sectors</span></div>
     
-    
-    
-<div class="viewcode-block" id="FFReader.keys"><a class="viewcode-back" href="../../../finds.readers.ffreader.html#finds.readers.ffreader.FFReader.keys">[docs]</a>    <span class="k">def</span> <span class="nf">keys</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return names of all available datasets&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="FFReader.keys"><a class="viewcode-back" href="../../../finds.readers.ffreader.html#finds.readers.ffreader.FFReader.keys">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">keys</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return names of all available datasets&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pdr</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">FamaFrenchReader</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">get_available_datasets</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="FFReader.fetch"><a class="viewcode-back" href="../../../finds.readers.ffreader.html#finds.readers.ffreader.FFReader.fetch">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">fetch</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> 
-              <span class="n">item</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> 
-              <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> 
-              <span class="n">start</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">19260101</span><span class="p">,</span> 
-              <span class="n">end</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20271231</span><span class="p">,</span> 
+    <span class="k">def</span> <span class="nf">fetch</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
               <span class="n">date_formatter</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve item and return as DataFrame</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve item and return as DataFrame</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            name: Name of research factor in Ken French website</span>
-<span class="sd">            item: Index of item to research (e.g. 0 is usually value-weighted)</span>
-<span class="sd">            suffix: Suffix string to append to name when stored in sql</span>
-<span class="sd">            start: earliest date to retrieve</span>
-<span class="sd">            end: latest date to retrieve </span>
-<span class="sd">            date_formatter: to reformat dates, e.g. bd.offset or bd.endmo</span>
+<span class="sd">          name: Name of research factor in Ken French website</span>
+<span class="sd">          item: Index of item to research (e.g. 0 is usually value-weighted)</span>
+<span class="sd">          suffix: Suffix string to append to name when stored in sql</span>
+<span class="sd">          start: earliest date to retrieve</span>
+<span class="sd">          end: latest date to retrieve </span>
+<span class="sd">          date_formatter: to reformat dates, e.g. bd.offset or bd.endmo</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">          DataFrame of asset returns (converted to decimal, not percentages) </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">end</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pdr</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataReader</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-                                 <span class="n">data_source</span><span class="o">=</span><span class="s1">&#39;famafrench&#39;</span><span class="p">,</span>
-                                 <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
-                                 <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">)[</span><span class="n">item</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pdr</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">FamaFrenchReader</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;1900-01-01&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_timestamp</span><span class="p">()</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">pass</span>     <span class="c1"># else invalid comparison error!</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">start</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">)]</span>
         <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">date_formatter</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="o">+</span> <span class="n">suffix</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="n">suffix</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
         <span class="n">df</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mf">99.99</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># replace NaNs</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span> <span class="o">/</span> <span class="mi">100</span>   <span class="c1"># change percentage returns in source to decimals</span>
         <span class="k">return</span> <span class="n">df</span></div></div>
@@ -257,7 +272,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Terence Lim.</p>
+    <p>&#169; Copyright 2022-2024, Terence Lim.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -39,19 +39,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.database.html">finds.database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.structured.html">finds.structured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.backtesting.html">finds.backtesting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.unstructured.html">finds.unstructured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.readers.html">finds.readers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -97,13 +93,12 @@
 <span class="kn">from</span> <span class="nn">finds.structured.stocks</span> <span class="kn">import</span> <span class="n">Stocks</span>
 <span class="kn">from</span> <span class="nn">finds.structured.benchmarks</span> <span class="kn">import</span> <span class="n">Benchmarks</span>
 <span class="kn">from</span> <span class="nn">finds.database.sql</span> <span class="kn">import</span> <span class="n">SQL</span>
-<span class="kn">from</span> <span class="nn">finds.plots</span> <span class="kn">import</span> <span class="n">plot_date</span>
-<span class="kn">from</span> <span class="nn">finds.econs</span> <span class="kn">import</span> <span class="n">least_squares</span>
+<span class="kn">from</span> <span class="nn">finds.utils.plots</span> <span class="kn">import</span> <span class="n">plot_date</span>
+<span class="kn">from</span> <span class="nn">finds.recipes.econs</span> <span class="kn">import</span> <span class="n">least_squares</span>
 <span class="kn">from</span> <span class="nn">.backtesting</span> <span class="kn">import</span> <span class="n">compound_ret</span>
-<span class="n">_VERBOSE</span> <span class="o">=</span> <span class="mi">1</span>
 
 <div class="viewcode-block" id="RiskPremium"><a class="viewcode-back" href="../../../finds.backtesting.riskpremium.html#finds.backtesting.riskpremium.RiskPremium">[docs]</a><span class="k">class</span> <span class="nc">RiskPremium</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute and test of factor loading risk premiums</span>
+    <span class="sd">&quot;&quot;&quot;Compute and test of factor loading risk premiums</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      sql: Connection to user database to store results</span>
@@ -112,7 +107,7 @@
 <span class="sd">      end: Last date of price and returns data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">:</span> <span class="n">SQL</span><span class="p">,</span> <span class="n">bench</span><span class="p">:</span> <span class="n">Benchmarks</span><span class="p">,</span> <span class="n">rf</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize for testing factor loading premiums&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Initialize for testing factor loading premiums&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bench</span> <span class="o">=</span> <span class="n">bench</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rf</span> <span class="o">=</span> <span class="n">bench</span><span class="o">.</span><span class="n">get_series</span><span class="p">([</span><span class="n">rf</span><span class="p">],</span> <span class="s1">&#39;ret&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">)[</span><span class="n">rf</span><span class="p">]</span>
@@ -123,7 +118,7 @@
 
 <div class="viewcode-block" id="RiskPremium.__call__"><a class="viewcode-back" href="../../../finds.backtesting.riskpremium.html#finds.backtesting.riskpremium.RiskPremium.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stocks</span><span class="p">:</span> <span class="n">Stocks</span><span class="p">,</span> <span class="n">loadings</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">DataFrame</span><span class="p">],</span>
                  <span class="n">weights</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">standardize</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="n">Series</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate factor risk premiums with cross-sectional FM regressions</span>
+        <span class="sd">&quot;&quot;&quot;Estimate factor risk premiums with cross-sectional FM regressions</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          stocks: Stocks&#39; returns data</span>
@@ -152,11 +147,8 @@
             <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">standardize</span><span class="p">:</span> <span class="c1"># weighted mean &lt;- 0, equal wtd stdev &lt;- 1</span>
                 <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">weights</span><span class="o">=</span><span class="n">w</span><span class="p">)</span>
                 <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stocks</span><span class="o">.</span><span class="n">get_ret</span><span class="p">(</span><span class="o">*</span><span class="n">holdrets</span><span class="p">,</span> <span class="n">delist</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">-</span><span class="n">rf</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
-            <span class="n">p</span> <span class="o">=</span> <span class="n">least_squares</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(),</span>
-                              <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
-                              <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ret&#39;</span><span class="p">],</span>
-                              <span class="n">add_constant</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stocks</span><span class="o">.</span><span class="n">get_ret</span><span class="p">(</span><span class="o">*</span><span class="n">holdrets</span><span class="p">)</span> <span class="o">-</span> <span class="n">rf</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">least_squares</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(),</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ret&#39;</span><span class="p">],</span> <span class="n">add_constant</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">holdrets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">perf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
@@ -167,7 +159,7 @@
         <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RiskPremium.fit"><a class="viewcode-back" href="../../../finds.backtesting.riskpremium.html#finds.backtesting.riskpremium.RiskPremium.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benchnames</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DataFrame</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute risk premiums and benchmark correlations&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Compute risk premiums and benchmark correlations&quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">corr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">perf</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
         <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>\
@@ -195,7 +187,7 @@
     
 <div class="viewcode-block" id="RiskPremium.plot"><a class="viewcode-back" href="../../../finds.backtesting.riskpremium.html#finds.backtesting.riskpremium.RiskPremium.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">num</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
              <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot computed time series of factor returns&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Plot computed time series of factor returns&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">factors</span><span class="p">:</span>
             <span class="n">factors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">perf</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">factors</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -243,7 +235,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Terence Lim.</p>
+    <p>&#169; Copyright 2022-2024, Terence Lim.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

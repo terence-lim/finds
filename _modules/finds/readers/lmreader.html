@@ -39,19 +39,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.database.html">finds.database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.structured.html">finds.structured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.backtesting.html">finds.backtesting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.unstructured.html">finds.unstructured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.readers.html">finds.readers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -95,14 +91,14 @@
 <span class="n">_VERBOSE</span> <span class="o">=</span> <span class="mi">1</span>
 
 <div class="viewcode-block" id="LMReader"><a class="viewcode-back" href="../../../finds.readers.lmreader.html#finds.readers.lmreader.LMReader">[docs]</a><span class="k">class</span> <span class="nc">LMReader</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to retrieve LoughranMcDonald dictionary and stopwords&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Class to retrieve LoughranMcDonald dictionary and stopwords&quot;&quot;&quot;</span>
     
     <span class="n">master_url</span> <span class="o">=</span> <span class="s1">&#39;https://sraf.nd.edu/loughranmcdonald-master-dictionary/&#39;</span>
     <span class="n">stopwords_url</span> <span class="o">=</span> <span class="s1">&#39;https://sraf.nd.edu/textual-analysis/stopwords/&#39;</span>
 
 <div class="viewcode-block" id="LMReader.fetch"><a class="viewcode-back" href="../../../finds.readers.lmreader.html#finds.readers.lmreader.LMReader.fetch">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">fetch</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">stopword</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper to retrieve and parse LoughranMcDonald dictionary or stopwords</span>
+        <span class="sd">&quot;&quot;&quot;Helper to retrieve and parse LoughranMcDonald dictionary or stopwords</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            source: URL or full pathname of csv file </span>
@@ -132,14 +128,14 @@
 <div class="viewcode-block" id="LMReader.update"><a class="viewcode-back" href="../../../finds.readers.lmreader.html#finds.readers.lmreader.LMReader.update">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">wordlists</span><span class="p">:</span> <span class="n">MongoDB</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">stopfiles</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
                <span class="n">verbose</span><span class="o">=</span><span class="n">_VERBOSE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update Loughran McDonald stopword and sentiment words to MongoDB&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Update Loughran McDonald stopword and sentiment words to MongoDB&quot;&quot;&quot;</span>
 
         <span class="k">def</span> <span class="nf">_print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">get_filenames</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;helper scrape LM&#39;s web pages for all google drive filenames&quot;&quot;&quot;</span>
+            <span class="sd">&quot;&quot;&quot;helper scrape LM&#39;s web pages for all google drive filenames&quot;&quot;&quot;</span>
             <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;https://drive.google.com/uc?export=download&amp;id=&quot;</span>
             <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>  
             <span class="n">files</span> <span class="o">=</span> <span class="p">{</span>

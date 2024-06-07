@@ -42,7 +42,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="finds.database.html">finds.database</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="finds.database.sql.html">finds.database.sql</a></li>
@@ -62,12 +62,8 @@
 <li class="toctree-l1"><a class="reference internal" href="finds.backtesting.html">finds.backtesting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.unstructured.html">finds.unstructured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.readers.html">finds.readers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -98,7 +94,7 @@
   <section id="module-finds.database.redisdb">
 <span id="finds-database-redisdb"></span><h1>finds.database.redisdb<a class="headerlink" href="#module-finds.database.redisdb" title="Permalink to this heading"></a></h1>
 <p>Redis class wrapper, with convenience methods for pandas DataFrames</p>
-<p>Copyright 2022, Terence Lim</p>
+<p>Copyright 2022-2024, Terence Lim</p>
 <p>MIT License</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="finds.database.redisdb.RedisDB">
@@ -119,18 +115,16 @@
 </dd>
 </dl>
 <p>Redis built-in methods:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>r.delete(key)      – delete an item</p></li>
-<li><p>r.get(key)         – get an item</p></li>
-<li><p>r.exists(key)      – does item exist</p></li>
-<li><p>r.set(key, value)  – set an item</p></li>
-<li><p>r.keys()           – get keys</p></li>
+<ul class="simple">
+<li><p>rdb.redis.delete(key)      – delete an item</p></li>
+<li><p>rdb.redis.get(key)         – get an item</p></li>
+<li><p>rdb.redis.exists(key)      – does item exist</p></li>
+<li><p>rdb.redis.set(key, value)  – set an item</p></li>
+<li><p>rdb.redis.keys()           – get keys</p></li>
 </ul>
-</div></blockquote>
 <p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./redis-5.0.4/src/redis-server
-$ ./redis-cli --scan --pattern &#39;*CRSP_2020*&#39; | xargs ./redis-cli del
+$ redis-cli --scan --pattern &#39;*CRSP_2020*&#39; | xargs ./redis-cli del
 CLI&gt; keys *
 CLI&gt; flushall
 CLI&gt; info memory
@@ -176,7 +170,7 @@ CLI&gt; info memory
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Terence Lim.</p>
+    <p>&#169; Copyright 2022-2024, Terence Lim.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

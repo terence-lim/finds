@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="finds.structured.benchmarks" href="finds.structured.benchmarks.html" />
+    <link rel="next" title="finds.structured.busday" href="finds.structured.busday.html" />
     <link rel="prev" title="finds.structured.pstat" href="finds.structured.pstat.html" /> 
 </head>
 
@@ -42,12 +42,14 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="finds.database.html">finds.database</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="finds.structured.html">finds.structured</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="finds.structured.structured.html">finds.structured.structured</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.structured.stocks.html">finds.structured.stocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finds.structured.benchmarks.html">finds.structured.benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finds.structured.signals.html">finds.structured.signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.structured.crsp.html">finds.structured.crsp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.structured.pstat.html">finds.structured.pstat</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">finds.structured.ibes</a><ul>
@@ -60,20 +62,14 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="finds.structured.benchmarks.html">finds.structured.benchmarks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finds.structured.signals.html">finds.structured.signals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finds.structured.finder.html">finds.structured.finder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finds.structured.busday.html">finds.structured.busday</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="finds.backtesting.html">finds.backtesting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.unstructured.html">finds.unstructured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.readers.html">finds.readers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -103,12 +99,12 @@
              
   <section id="module-finds.structured.ibes">
 <span id="finds-structured-ibes"></span><h1>finds.structured.ibes<a class="headerlink" href="#module-finds.structured.ibes" title="Permalink to this heading"></a></h1>
-<p>IBES summary, ident and history of analysts earnings estimates</p>
-<p>Copyright 2022, Terence Lim</p>
+<p>IBES summary analysts earnings estimates</p>
+<p>Copyright 2022-2024, Terence Lim</p>
 <p>MIT License</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="finds.structured.ibes.IBES">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finds.structured.ibes.</span></span><span class="sig-name descname"><span class="pre">IBES</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="finds.database.sql.html#finds.database.sql.SQL" title="finds.database.sql.SQL"><span class="pre">SQL</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">bd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="finds.busday.html#finds.busday.BusDay" title="finds.busday.BusDay"><span class="pre">BusDay</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'IBES'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/finds/structured/ibes.html#IBES"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.structured.ibes.IBES" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finds.structured.ibes.</span></span><span class="sig-name descname"><span class="pre">IBES</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="finds.database.sql.html#finds.database.sql.SQL" title="finds.database.sql.SQL"><span class="pre">SQL</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">bd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="finds.structured.busday.html#finds.structured.busday.BusDay" title="finds.structured.busday.BusDay"><span class="pre">BusDay</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'IBES'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ticker'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/finds/structured/ibes.html#IBES"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.structured.ibes.IBES" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="finds.structured.structured.html#finds.structured.structured.Structured" title="finds.structured.structured.Structured"><code class="xref py py-class docutils literal notranslate"><span class="pre">Structured</span></code></a></p>
 <p>Provide interface to IBES analyst estimates structured datasets</p>
 <dl class="field-list simple">
@@ -116,6 +112,8 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sql</strong> – Connection to SQL database</p></li>
 <li><p><strong>bd</strong> – Custom business day calendar object</p></li>
+<li><p><strong>name</strong> – Name of dataset is “IBES”</p></li>
+<li><p><strong>identifer</strong> – Stocks identifier field name is “ticker”</p></li>
 </ul>
 </dd>
 </dl>
@@ -129,7 +127,7 @@
 </ul>
 <dl class="py method">
 <dt class="sig sig-object py" id="finds.structured.ibes.IBES.build_lookup">
-<span class="sig-name descname"><span class="pre">build_lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sdates'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ident'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fillna</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/finds/structured/ibes.html#IBES.build_lookup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.structured.ibes.IBES.build_lookup" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">build_lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sdates'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'links'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fillna</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/finds/structured/ibes.html#IBES.build_lookup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.structured.ibes.IBES.build_lookup" title="Permalink to this definition"></a></dt>
 <dd><p>Build lookup function to return target identifier from source</p>
 </dd></dl>
 
@@ -151,7 +149,7 @@
 </dd>
 </dl>
 <p>Examples:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ibes</span><span class="o">.</span><span class="n">get_linked</span><span class="p">(</span><span class="s1">&#39;ident&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cname&#39;</span><span class="p">],</span> <span class="n">date_field</span><span class="o">=</span><span class="s1">&#39;statpers&#39;</span><span class="p">):</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ibes</span><span class="o">.</span><span class="n">get_linked</span><span class="p">(</span><span class="s1">&#39;idsum&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cname&#39;</span><span class="p">],</span> <span class="n">date_field</span><span class="o">=</span><span class="s1">&#39;statpers&#39;</span><span class="p">):</span>
 </pre></div>
 </div>
 <p>Notes:</p>
@@ -193,13 +191,13 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="finds.structured.pstat.html" class="btn btn-neutral float-left" title="finds.structured.pstat" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="finds.structured.benchmarks.html" class="btn btn-neutral float-right" title="finds.structured.benchmarks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="finds.structured.busday.html" class="btn btn-neutral float-right" title="finds.structured.busday" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Terence Lim.</p>
+    <p>&#169; Copyright 2022-2024, Terence Lim.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

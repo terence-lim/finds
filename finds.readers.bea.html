@@ -42,14 +42,13 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="finds.database.html">finds.database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.structured.html">finds.structured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.backtesting.html">finds.backtesting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.unstructured.html">finds.unstructured</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="finds.readers.html">finds.readers</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="finds.readers.readers.html">finds.readers.readers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.readers.alfred.html">finds.readers.alfred</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">finds.readers.bea</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#finds.readers.bea.BEA"><code class="docutils literal notranslate"><span class="pre">BEA</span></code></a><ul>
@@ -57,27 +56,21 @@
 <li class="toctree-l4"><a class="reference internal" href="#finds.readers.bea.BEA.read_ioUse"><code class="docutils literal notranslate"><span class="pre">BEA.read_ioUse()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#finds.readers.bea.BEA.read_ioUse_xls"><code class="docutils literal notranslate"><span class="pre">BEA.read_ioUse_xls()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#finds.readers.bea.BEA.sectoring"><code class="docutils literal notranslate"><span class="pre">BEA.sectoring()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#finds.readers.bea.BEA.bea_industry_"><code class="docutils literal notranslate"><span class="pre">BEA.bea_industry_</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#finds.readers.bea.BEA.bea_vintages_"><code class="docutils literal notranslate"><span class="pre">BEA.bea_vintages_</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#finds.readers.bea.BEA.params"><code class="docutils literal notranslate"><span class="pre">BEA.params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#finds.readers.bea.BEA.short_desc"><code class="docutils literal notranslate"><span class="pre">BEA.short_desc</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="finds.readers.taq.html">finds.readers.taq</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finds.readers.edgar.html">finds.readers.edgar</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.readers.ffreader.html">finds.readers.ffreader</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.readers.fomcreader.html">finds.readers.fomcreader</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finds.readers.lmreader.html">finds.readers.lmreader</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.readers.sectoring.html">finds.readers.sectoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finds.readers.readers.html">finds.readers.readers</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -107,10 +100,14 @@
              
   <section id="module-finds.readers.bea">
 <span id="finds-readers-bea"></span><h1>finds.readers.bea<a class="headerlink" href="#module-finds.readers.bea" title="Permalink to this heading"></a></h1>
-<p>Wrapper over BEA web api and data</p>
+<p>Wrapper over BEA web api and data source files</p>
 <ul class="simple">
 <li><p>Bureau of Economic Analysis: Input-Output Use Tables</p></li>
 </ul>
+<p>BEA released initial results of the comprehensive update of the
+National Economic Accounts (NEAs), which include the National Income
+and Product Accounts (NIPAs) and the Industry Economic Accounts
+(IEAs), on September 28, 2023.</p>
 <p>Copyright 2022, Terence Lim</p>
 <p>MIT License</p>
 <dl class="py class">
@@ -127,8 +124,7 @@
 </dd>
 <dt class="field-even">Variables<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>bea_vintages</strong> – Reference dict to group BEA tables by vintage year</p></li>
-<li><p><strong>bea_industry</strong> – Reference Series maps BEA industry to custom descriptions</p></li>
+<li><p><strong>short_desc</strong> – Reference Series maps BEA industry to custom descriptions</p></li>
 <li><p><strong>params</strong> – Some common parameter sets for BEA web api</p></li>
 </ul>
 </dd>
@@ -143,7 +139,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="finds.readers.bea.BEA.get">
 <span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasetname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parametername</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rw'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/finds/readers/bea.html#BEA.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.readers.bea.BEA.get" title="Permalink to this definition"></a></dt>
-<dd><p>Wrapper to execute common BEA web api calls</p>
+<dd><p>Execute common BEA web api calls</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -234,28 +230,28 @@ columns ‘rowcode’, ‘colcode’ label maker and user industry</p>
 </ul>
 </dd>
 </dl>
-<p>Notes:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://www.bea.gov/industry/input-output-accounts-data">https://www.bea.gov/industry/input-output-accounts-data</a></p></li>
-<li><p><a class="reference external" href="https://apps.bea.gov/industry/xls/io-annual/">https://apps.bea.gov/industry/xls/io-annual/</a></p></li>
+<p>Notes:
+- <a class="reference external" href="https://www.bea.gov/industry/input-output-accounts-data">https://www.bea.gov/industry/input-output-accounts-data</a>
+- <a class="reference external" href="https://apps.bea.gov/industry/xls/io-annual/">https://apps.bea.gov/industry/xls/io-annual/</a></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>IOUse_Before_Redefinitions_PRO_1947-1962_Summary.xlsx</p></li>
 <li><p>Use_SUT_Framework_2007_2012_DET.xlsx</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
 <li><p>Replace “HS” “ORE” with “531”</p></li>
 </ul>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="finds.readers.bea.BEA.bea_industry_">
-<span class="sig-name descname"><span class="pre">bea_industry_</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">11</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Agriculture</span> <span class="pre">111CA</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Farms</span> <span class="pre">113FF</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Forestry,fishing</span> <span class="pre">21</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Mining</span> <span class="pre">211</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Oil,</span> <span class="pre">gas</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">...</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">GFGN</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Nondefense</span> <span class="pre">GFE</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Federal</span> <span class="pre">enterprises</span> <span class="pre">GSL</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">State</span> <span class="pre">local</span> <span class="pre">GSLG</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">State</span> <span class="pre">local</span> <span class="pre">general</span> <span class="pre">GSLE</span>&#160;&#160;&#160;&#160; <span class="pre">State</span> <span class="pre">local</span> <span class="pre">enterprises</span> <span class="pre">Length:</span> <span class="pre">95,</span> <span class="pre">dtype:</span> <span class="pre">object</span></em><a class="headerlink" href="#finds.readers.bea.BEA.bea_industry_" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="finds.readers.bea.BEA.bea_vintages_">
-<span class="sig-name descname"><span class="pre">bea_vintages_</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{1963:</span> <span class="pre">{'48':</span> <span class="pre">['481',</span> <span class="pre">'482',</span> <span class="pre">'483',</span> <span class="pre">'484',</span> <span class="pre">'485',</span> <span class="pre">'486',</span> <span class="pre">'487OS'],</span> <span class="pre">'51':</span> <span class="pre">['511',</span> <span class="pre">'512',</span> <span class="pre">'513',</span> <span class="pre">'514'],</span> <span class="pre">'52':</span> <span class="pre">['521CI',</span> <span class="pre">'523',</span> <span class="pre">'524',</span> <span class="pre">'525'],</span> <span class="pre">'54':</span> <span class="pre">['5411',</span> <span class="pre">'5415',</span> <span class="pre">'5412OP'],</span> <span class="pre">'56':</span> <span class="pre">['561',</span> <span class="pre">'562'],</span> <span class="pre">'62':</span> <span class="pre">['621',</span> <span class="pre">'622',</span> <span class="pre">'623',</span> <span class="pre">'624',</span> <span class="pre">'622HO'],</span> <span class="pre">'71':</span> <span class="pre">['711AS',</span> <span class="pre">'713']},</span> <span class="pre">1997:</span> <span class="pre">{'44RT':</span> <span class="pre">['441',</span> <span class="pre">'445',</span> <span class="pre">'452',</span> <span class="pre">'4A0'],</span> <span class="pre">'622HO':</span> <span class="pre">['622',</span> <span class="pre">'623'],</span> <span class="pre">'GFG':</span> <span class="pre">['GFGD',</span> <span class="pre">'GFGN']},</span> <span class="pre">9999:</span> <span class="pre">{'531':</span> <span class="pre">['HS',</span> <span class="pre">'ORE']}}</span></em><a class="headerlink" href="#finds.readers.bea.BEA.bea_vintages_" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="finds.readers.bea.BEA.params">
 <span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'gdpindustry':</span> <span class="pre">{'datasetname':</span> <span class="pre">'GDPbyIndustry',</span> <span class="pre">'index':</span> <span class="pre">'key',</span> <span class="pre">'parametername':</span> <span class="pre">'Industry'},</span> <span class="pre">'ioUse':</span> <span class="pre">{'datasetname':</span> <span class="pre">'inputoutput',</span> <span class="pre">'tableid':</span> <span class="pre">259}}</span></em><a class="headerlink" href="#finds.readers.bea.BEA.params" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="finds.readers.bea.BEA.short_desc">
+<span class="sig-name descname"><span class="pre">short_desc</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">11</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Agriculture</span> <span class="pre">111CA</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Farms</span> <span class="pre">113FF</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Forestry,fishing</span> <span class="pre">21</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Mining</span> <span class="pre">211</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Oil,</span> <span class="pre">gas</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">...</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">GFGN</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Nondefense</span> <span class="pre">GFE</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Federal</span> <span class="pre">enterprises</span> <span class="pre">GSL</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">State</span> <span class="pre">local</span> <span class="pre">GSLG</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">State</span> <span class="pre">local</span> <span class="pre">general</span> <span class="pre">GSLE</span>&#160;&#160;&#160;&#160; <span class="pre">State</span> <span class="pre">local</span> <span class="pre">enterprises</span> <span class="pre">Name:</span> <span class="pre">label,</span> <span class="pre">Length:</span> <span class="pre">95,</span> <span class="pre">dtype:</span> <span class="pre">object</span></em><a class="headerlink" href="#finds.readers.bea.BEA.short_desc" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -273,7 +269,7 @@ columns ‘rowcode’, ‘colcode’ label maker and user industry</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Terence Lim.</p>
+    <p>&#169; Copyright 2022-2024, Terence Lim.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

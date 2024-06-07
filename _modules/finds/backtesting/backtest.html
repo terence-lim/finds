@@ -39,19 +39,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.database.html">finds.database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.structured.html">finds.structured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.backtesting.html">finds.backtesting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.unstructured.html">finds.unstructured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../finds.readers.html">finds.readers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -103,18 +99,28 @@
 <span class="kn">from</span> <span class="nn">finds.structured.stocks</span> <span class="kn">import</span> <span class="n">Stocks</span>
 <span class="kn">from</span> <span class="nn">finds.structured.benchmarks</span> <span class="kn">import</span> <span class="n">Benchmarks</span>
 <span class="kn">from</span> <span class="nn">finds.database.sql</span> <span class="kn">import</span> <span class="n">SQL</span>
-<span class="kn">from</span> <span class="nn">finds.finance</span> <span class="kn">import</span> <span class="n">maximum_drawdown</span>
-<span class="kn">from</span> <span class="nn">finds.plots</span> <span class="kn">import</span> <span class="n">plot_date</span><span class="p">,</span> <span class="n">plot_bands</span>
-<span class="kn">from</span> <span class="nn">.backtesting</span> <span class="kn">import</span> <span class="n">compound_ret</span>
+<span class="kn">from</span> <span class="nn">finds.recipes.finance</span> <span class="kn">import</span> <span class="n">maximum_drawdown</span>
+<span class="kn">from</span> <span class="nn">finds.utils.plots</span> <span class="kn">import</span> <span class="n">plot_date</span><span class="p">,</span> <span class="n">plot_bands</span>
+<span class="kn">from</span> <span class="nn">finds.utils.utils</span> <span class="kn">import</span> <span class="n">to_type</span>
 
 <span class="n">_VERBOSE</span> <span class="o">=</span> <span class="mi">1</span>
 
-<div class="viewcode-block" id="to_type"><a class="viewcode-back" href="../../../finds.backtesting.backtest.html#finds.backtesting.backtest.to_type">[docs]</a><span class="k">def</span> <span class="nf">to_type</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="nb">str</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert each element in nested list to target type&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">to_type</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">v</span><span class="p">]</span> <span class="k">if</span> <span class="n">types</span><span class="o">.</span><span class="n">is_list_like</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">else</span> <span class="n">t</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></div>
+<div class="viewcode-block" id="compound_ret"><a class="viewcode-back" href="../../../finds.backtesting.backtest.html#finds.backtesting.backtest.compound_ret">[docs]</a><span class="k">def</span> <span class="nf">compound_ret</span><span class="p">(</span><span class="n">rets</span><span class="p">:</span> <span class="n">Series</span><span class="p">,</span> <span class="n">intervals</span><span class="p">:</span> <span class="n">Tuple</span> <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Compounds series of returns between (list of) date tuples (inclusive)&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">intervals</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">intervals</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">compound_ret</span><span class="p">(</span><span class="n">rets</span><span class="p">,</span> <span class="n">intervals</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">intervals</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">intervals</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>  <span class="c1"># a single tuple</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">rets</span><span class="o">.</span><span class="n">index</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">rets</span><span class="p">[(</span><span class="n">d</span> <span class="o">&gt;=</span> <span class="n">intervals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">d</span> <span class="o">&lt;=</span> <span class="n">intervals</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>      <span class="c1"># list of date tuples: recursively evaluate each tuple</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">compound_ret</span><span class="p">(</span><span class="n">rets</span><span class="p">,</span> <span class="n">interval</span><span class="p">)</span> <span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">intervals</span><span class="p">]</span></div>
+
+
 
 <div class="viewcode-block" id="BackTest"><a class="viewcode-back" href="../../../finds.backtesting.backtest.html#finds.backtesting.backtest.BackTest">[docs]</a><span class="k">class</span> <span class="nc">BackTest</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for computing portfolio backtest returns</span>
+    <span class="sd">&quot;&quot;&quot;Base class for computing portfolio backtest returns</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      sql: Database connection to store results</span>
@@ -138,7 +144,7 @@
     <span class="c1"># schema of the table to store backtested performance returns</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">:</span> <span class="n">SQL</span><span class="p">,</span> <span class="n">bench</span><span class="p">:</span> <span class="n">Benchmarks</span><span class="p">,</span> <span class="n">rf</span><span class="p">:</span> <span class="n">Series</span><span class="p">,</span> <span class="n">max_date</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
                  <span class="n">table</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;backtests&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">_VERBOSE</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize class to evaluate backtest performance&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Initialize class to evaluate backtest performance&quot;&quot;&quot;</span>
         <span class="n">table</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span>
                           <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;permno&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
                           <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;begret&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">),</span>
@@ -159,8 +165,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span> <span class="o">=</span> <span class="n">verbose</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bench</span> <span class="o">=</span> <span class="n">bench</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_date</span> <span class="o">=</span> <span class="n">max_date</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rf</span> <span class="o">=</span> <span class="n">bench</span><span class="o">.</span><span class="n">get_series</span><span class="p">([</span><span class="n">rf</span><span class="p">],</span> <span class="s1">&#39;ret&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">max_date</span><span class="p">)[</span><span class="n">rf</span><span class="p">]</span>
-        <span class="n">rf</span> <span class="o">=</span> <span class="n">bench</span><span class="o">.</span><span class="n">get_series</span><span class="p">([</span><span class="n">rf</span> <span class="o">+</span> <span class="s2">&quot;(mo)&quot;</span><span class="p">],</span> <span class="s1">&#39;ret&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">max_date</span><span class="p">)</span>  <span class="c1"># monthly</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rf</span> <span class="o">=</span> <span class="n">bench</span><span class="o">.</span><span class="n">get_series</span><span class="p">(</span><span class="n">permnos</span><span class="o">=</span><span class="p">[</span><span class="n">rf</span><span class="p">],</span> <span class="n">field</span><span class="o">=</span><span class="s1">&#39;ret&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">max_date</span><span class="p">)[</span><span class="n">rf</span><span class="p">]</span>
+        <span class="n">rf</span> <span class="o">=</span> <span class="n">bench</span><span class="o">.</span><span class="n">get_series</span><span class="p">(</span><span class="n">permnos</span><span class="o">=</span><span class="p">[</span><span class="n">rf</span> <span class="o">+</span> <span class="s2">&quot;(mo)&quot;</span><span class="p">],</span> <span class="n">field</span><span class="o">=</span><span class="s1">&#39;ret&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">max_date</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">monthly_</span> <span class="o">=</span> <span class="p">{(</span><span class="n">bench</span><span class="o">.</span><span class="n">bd</span><span class="o">.</span><span class="n">begmo</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">bench</span><span class="o">.</span><span class="n">bd</span><span class="o">.</span><span class="n">endmo</span><span class="p">(</span><span class="n">d</span><span class="p">)):</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
                          <span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">rf</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         
@@ -169,11 +175,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">excess</span> <span class="o">=</span> <span class="kc">None</span>   <span class="c1"># with excess returns after attribution</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label</span>  <span class="o">=</span> <span class="kc">None</span>   <span class="c1"># label name</span>
 
-<div class="viewcode-block" id="BackTest.__call__"><a class="viewcode-back" href="../../../finds.backtesting.backtest.html#finds.backtesting.backtest.BackTest.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stocks</span><span class="p">:</span> <span class="n">Stocks</span><span class="p">,</span>
-                       <span class="n">holdings</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Series</span><span class="p">],</span>
-                       <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                       <span class="n">overlap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute holding returns and rebalance statistics</span>
+<div class="viewcode-block" id="BackTest.__call__"><a class="viewcode-back" href="../../../finds.backtesting.backtest.html#finds.backtesting.backtest.BackTest.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stocks</span><span class="p">:</span> <span class="n">Stocks</span><span class="p">,</span> <span class="n">holdings</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Series</span><span class="p">],</span>
+                 <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">overlap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compute holding returns and rebalance statistics</span>
 <span class="sd">        </span>
 <span class="sd">        Args:</span>
 <span class="sd">          stocks: Structured data set with stocks data</span>
@@ -222,7 +226,7 @@
                 <span class="n">curr</span><span class="p">[</span><span class="n">weights</span><span class="o">.</span><span class="n">index</span><span class="p">]</span> <span class="o">+=</span> <span class="n">weights</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">smooth</span><span class="p">)</span>
 
             <span class="c1"># compute portfolio return this month</span>
-            <span class="n">ret</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">stocks</span><span class="o">.</span><span class="n">get_ret</span><span class="p">(</span><span class="n">begret</span><span class="p">,</span> <span class="n">endret</span><span class="p">,</span> <span class="n">delist</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>\
+            <span class="n">ret</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">stocks</span><span class="o">.</span><span class="n">get_ret</span><span class="p">(</span><span class="n">begret</span><span class="p">,</span> <span class="n">endret</span><span class="p">)</span>\
                       <span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">curr</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">curr</span><span class="p">)</span>
             
             <span class="c1"># compute turnover</span>
@@ -254,7 +258,7 @@
         <span class="k">return</span> <span class="n">perf</span></div>
 
 <div class="viewcode-block" id="BackTest.write"><a class="viewcode-back" href="../../../finds.backtesting.backtest.html#finds.backtesting.backtest.BackTest.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save backtest performance returns to database&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Save backtest performance returns to database&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">table_</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sql</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span> <span class="n">checkfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">delete</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>\
                             <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table_</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;permno&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span>
@@ -263,7 +267,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sql</span><span class="o">.</span><span class="n">load_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table_</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">perf</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BackTest.read"><a class="viewcode-back" href="../../../finds.backtesting.backtest.html#finds.backtesting.backtest.BackTest.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load backtest performance returns from database&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Load backtest performance returns from database&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">label</span><span class="p">:</span>
             <span class="n">q</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="si">}</span><span class="s2">,&quot;</span>
                  <span class="sa">f</span><span class="s2">&quot; count(*) as count,&quot;</span>
@@ -283,21 +287,19 @@
 
 <div class="viewcode-block" id="BackTest.get_series"><a class="viewcode-back" href="../../../finds.backtesting.backtest.html#finds.backtesting.backtest.BackTest.get_series">[docs]</a>    <span class="k">def</span> <span class="nf">get_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;ret&#39;</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">19000000</span><span class="p">,</span>
                    <span class="n">end</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve saved backtest as a series&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve saved backtest as a series&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sql</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table_</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
                               <span class="n">index</span><span class="o">=</span><span class="s1">&#39;endret&#39;</span><span class="p">,</span>
                               <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;permno&#39;</span><span class="p">,</span>
                               <span class="n">values</span><span class="o">=</span><span class="n">field</span><span class="p">,</span>
                               <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;endret &gt;= </span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s2">&quot;</span>
-                                     <span class="sa">f</span><span class="s2">&quot; AND endret &lt;= </span><span class="si">{</span><span class="n">end</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">max_date</span><span class="si">}</span><span class="s2"> &quot;</span>
+                                     <span class="sa">f</span><span class="s2">&quot; AND endret &lt;= </span><span class="si">{</span><span class="n">end</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_date</span><span class="si">}</span><span class="s2"> &quot;</span>
                                      <span class="sa">f</span><span class="s2">&quot; AND permno = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>\
                        <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;endret&#39;</span><span class="p">:</span> <span class="s1">&#39;date&#39;</span><span class="p">})</span></div>
 
-<div class="viewcode-block" id="BackTest.fit"><a class="viewcode-back" href="../../../finds.backtesting.backtest.html#finds.backtesting.backtest.BackTest.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benchnames</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-                  <span class="n">beg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-                  <span class="n">end</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-                  <span class="n">haclags</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute performance attribution against benchmarks </span>
+<div class="viewcode-block" id="BackTest.fit"><a class="viewcode-back" href="../../../finds.backtesting.backtest.html#finds.backtesting.backtest.BackTest.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benchnames</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">beg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">end</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">haclags</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compute performance attribution against benchmarks </span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          benchnames: Names of benchmark returns to compute attribution against</span>
@@ -326,7 +328,7 @@
         <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">perf</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="s1">&#39;excess&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
 
         <span class="c1"># collect benchmark returns</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bench</span><span class="o">.</span><span class="n">get_series</span><span class="p">(</span><span class="n">benchnames</span><span class="p">,</span> <span class="s1">&#39;ret&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_date</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bench</span><span class="o">.</span><span class="n">get_series</span><span class="p">(</span><span class="n">benchnames</span><span class="p">,</span> <span class="n">field</span><span class="o">=</span><span class="s1">&#39;ret&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_date</span><span class="p">)</span>
         <span class="n">retdates</span> <span class="o">=</span> <span class="n">to_type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">perf</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;begret&#39;</span><span class="p">,</span><span class="s1">&#39;endret&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">benchnames</span><span class="p">:</span>
             <span class="n">p</span><span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">compound_ret</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">b</span><span class="p">],</span> <span class="n">retdates</span><span class="p">)</span>
@@ -359,7 +361,7 @@
 <div class="viewcode-block" id="BackTest.plot"><a class="viewcode-back" href="../../../finds.backtesting.backtest.html#finds.backtesting.backtest.BackTest.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">num</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">flip</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
              <span class="n">drawdown</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
              <span class="n">marker</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">9</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot time series of excess vs benchmark returns</span>
+        <span class="sd">&quot;&quot;&quot;Plot time series of excess vs benchmark returns</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num: Figure number to use in plt</span>
@@ -413,7 +415,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Terence Lim.</p>
+    <p>&#169; Copyright 2022-2024, Terence Lim.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

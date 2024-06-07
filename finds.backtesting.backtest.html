@@ -42,7 +42,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="finds.database.html">finds.database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.structured.html">finds.structured</a></li>
@@ -59,7 +59,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#finds.backtesting.backtest.BackTest.write"><code class="docutils literal notranslate"><span class="pre">BackTest.write()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#finds.backtesting.backtest.to_type"><code class="docutils literal notranslate"><span class="pre">to_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#finds.backtesting.backtest.compound_ret"><code class="docutils literal notranslate"><span class="pre">compound_ret()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="finds.backtesting.riskpremium.html">finds.backtesting.riskpremium</a></li>
@@ -68,12 +68,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="finds.unstructured.html">finds.unstructured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.readers.html">finds.readers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -231,9 +227,9 @@ include dlst returns</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="finds.backtesting.backtest.to_type">
-<span class="sig-prename descclassname"><span class="pre">finds.backtesting.backtest.</span></span><span class="sig-name descname"><span class="pre">to_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t=&lt;class</span> <span class="pre">'str'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/finds/backtesting/backtest.html#to_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.backtesting.backtest.to_type" title="Permalink to this definition"></a></dt>
-<dd><p>Convert each element in nested list to target type</p>
+<dt class="sig sig-object py" id="finds.backtesting.backtest.compound_ret">
+<span class="sig-prename descclassname"><span class="pre">finds.backtesting.backtest.</span></span><span class="sig-name descname"><span class="pre">compound_ret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intervals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/finds/backtesting/backtest.html#compound_ret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.backtesting.backtest.compound_ret" title="Permalink to this definition"></a></dt>
+<dd><p>Compounds series of returns between (list of) date tuples (inclusive)</p>
 </dd></dl>
 
 </section>
@@ -249,7 +245,7 @@ include dlst returns</p></li>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Terence Lim.</p>
+    <p>&#169; Copyright 2022-2024, Terence Lim.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

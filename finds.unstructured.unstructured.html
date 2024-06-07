@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="finds.unstructured.store" href="finds.unstructured.store.html" />
+    <link rel="next" title="finds.unstructured.edgar" href="finds.unstructured.edgar.html" />
     <link rel="prev" title="finds.unstructured" href="finds.unstructured.html" /> 
 </head>
 
@@ -42,7 +42,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="finds.database.html">finds.database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.structured.html">finds.structured</a></li>
@@ -59,20 +59,15 @@
 <li class="toctree-l4"><a class="reference internal" href="#finds.unstructured.unstructured.Unstructured.show"><code class="docutils literal notranslate"><span class="pre">Unstructured.show()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#finds.unstructured.unstructured.parse_where"><code class="docutils literal notranslate"><span class="pre">parse_where()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="finds.unstructured.store.html">finds.unstructured.store</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finds.unstructured.textual.html">finds.unstructured.textual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finds.unstructured.edgar.html">finds.unstructured.edgar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finds.unstructured.vocab.html">finds.unstructured.vocab</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="finds.readers.html">finds.readers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -145,7 +140,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="finds.unstructured.unstructured.Unstructured.delete">
-<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/finds/unstructured/unstructured.html#Unstructured.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.unstructured.unstructured.Unstructured.delete" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/finds/unstructured/unstructured.html#Unstructured.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.unstructured.unstructured.Unstructured.delete" title="Permalink to this definition"></a></dt>
 <dd><p>Delete all docs in collection satisfying where clause</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -243,30 +238,6 @@
 
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="finds.unstructured.unstructured.parse_where">
-<span class="sig-prename descclassname"><span class="pre">finds.unstructured.unstructured.</span></span><span class="sig-name descname"><span class="pre">parse_where</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">where</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="_modules/finds/unstructured/unstructured.html#parse_where"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.unstructured.unstructured.parse_where" title="Permalink to this definition"></a></dt>
-<dd><p>Helper to parse dict or list-like where clause to pymongo command str</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>where</strong> – keyword name may have operator suffix:</p></li>
-<li><p><strong>name_eq</strong> (<em>-</em>) – be equal to the value</p></li>
-<li><p><strong>name_ne</strong> (<em>-</em>) – be equal to the value</p></li>
-<li><p><strong>name_lt</strong> (<em>-</em>) – less than the value</p></li>
-<li><p><strong>name_le</strong> (<em>-</em>) – less than or equal to the value</p></li>
-<li><p><strong>name_gt</strong> (<em>-</em>) – greater than the value</p></li>
-<li><p><strong>name_ge</strong> (<em>-</em>) – greater than or equal to the value</p></li>
-<li><p><strong>name_in</strong> (<em>-</em>) – be included in the value</p></li>
-<li><p><strong>name_notin</strong> (<em>-</em>) – not be included in the value</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dictionary of conditions in pymongo format</p>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 
 
@@ -274,13 +245,13 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="finds.unstructured.html" class="btn btn-neutral float-left" title="finds.unstructured" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="finds.unstructured.store.html" class="btn btn-neutral float-right" title="finds.unstructured.store" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="finds.unstructured.edgar.html" class="btn btn-neutral float-right" title="finds.unstructured.edgar" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Terence Lim.</p>
+    <p>&#169; Copyright 2022-2024, Terence Lim.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

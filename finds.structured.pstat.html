@@ -42,37 +42,35 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="finds.database.html">finds.database</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="finds.structured.html">finds.structured</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="finds.structured.structured.html">finds.structured.structured</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.structured.stocks.html">finds.structured.stocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finds.structured.benchmarks.html">finds.structured.benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finds.structured.signals.html">finds.structured.signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.structured.crsp.html">finds.structured.crsp</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">finds.structured.pstat</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#finds.structured.pstat.PSTAT"><code class="docutils literal notranslate"><span class="pre">PSTAT</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#finds.structured.pstat.PSTAT.build_lookup"><code class="docutils literal notranslate"><span class="pre">PSTAT.build_lookup()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#finds.structured.pstat.PSTAT.get_linked"><code class="docutils literal notranslate"><span class="pre">PSTAT.get_linked()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#finds.structured.pstat.PSTAT.get_permnos"><code class="docutils literal notranslate"><span class="pre">PSTAT.get_permnos()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#finds.structured.pstat.PSTAT.event"><code class="docutils literal notranslate"><span class="pre">PSTAT.event</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#finds.structured.pstat.PSTAT.role"><code class="docutils literal notranslate"><span class="pre">PSTAT.role</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="finds.structured.ibes.html">finds.structured.ibes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finds.structured.benchmarks.html">finds.structured.benchmarks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finds.structured.signals.html">finds.structured.signals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finds.structured.finder.html">finds.structured.finder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finds.structured.busday.html">finds.structured.busday</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="finds.backtesting.html">finds.backtesting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.unstructured.html">finds.unstructured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.readers.html">finds.readers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -102,12 +100,12 @@
              
   <section id="module-finds.structured.pstat">
 <span id="finds-structured-pstat"></span><h1>finds.structured.pstat<a class="headerlink" href="#module-finds.structured.pstat" title="Permalink to this heading"></a></h1>
-<p>Compustat annual, quarterly, key developments, principal customers</p>
-<p>Copyright 2022, Terence Lim</p>
+<p>Compustat annual, quarterly and key developments</p>
+<p>Copyright 2022-2024, Terence Lim</p>
 <p>MIT License</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="finds.structured.pstat.PSTAT">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finds.structured.pstat.</span></span><span class="sig-name descname"><span class="pre">PSTAT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="finds.database.sql.html#finds.database.sql.SQL" title="finds.database.sql.SQL"><span class="pre">SQL</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">bd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="finds.busday.html#finds.busday.BusDay" title="finds.busday.BusDay"><span class="pre">BusDay</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'PSTAT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/finds/structured/pstat.html#PSTAT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.structured.pstat.PSTAT" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finds.structured.pstat.</span></span><span class="sig-name descname"><span class="pre">PSTAT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="finds.database.sql.html#finds.database.sql.SQL" title="finds.database.sql.SQL"><span class="pre">SQL</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">bd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="finds.structured.busday.html#finds.structured.busday.BusDay" title="finds.structured.busday.BusDay"><span class="pre">BusDay</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'PSTAT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gvkey'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/finds/structured/pstat.html#PSTAT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.structured.pstat.PSTAT" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="finds.structured.structured.html#finds.structured.structured.Structured" title="finds.structured.structured.Structured"><code class="xref py py-class docutils literal notranslate"><span class="pre">Structured</span></code></a></p>
 <p>Provide interface to Compustat structured data sets</p>
 <dl class="field-list simple">
@@ -115,12 +113,8 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sql</strong> – Connection to mysql database</p></li>
 <li><p><strong>bd</strong> – Custom business days object</p></li>
-</ul>
-</dd>
-<dt class="field-even">Variables<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>_role</strong> – Reference Series mapping keydev role id to description</p></li>
-<li><p><strong>_event</strong> – Reference Series mapping keydev event id to description</p></li>
+<li><p><strong>name</strong> – Name of dataset is “PSTAT”</p></li>
+<li><p><strong>identifier</strong> – Stocks identifier field name is “gvkey”</p></li>
 </ul>
 </dd>
 </dl>
@@ -158,12 +152,12 @@ also include INDFMT= ‘FS’, CURRENCY=’USD+CAD’, STATUS=’ACTIVE+INACTIVE
 </dl>
 <p>Examples:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pstat</span><span class="o">.</span><span class="n">get_linked</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;annual&#39;</span><span class="p">,</span> <span class="n">date_field</span><span class="o">=</span><span class="s1">&#39;datadate&#39;</span><span class="p">,</span>
-<span class="go">           fields=[&#39;ceq&#39;,&#39;pstkrv&#39;,&#39;pstkl&#39;,&#39;pstk&#39;],</span>
-<span class="go">           where=&#39;ceq &gt; 0 and datadate&gt;=19930104 and datadate&lt;=20991231&#39;)</span>
+<span class="go">         fields=[&#39;ceq&#39;,&#39;pstkrv&#39;,&#39;pstkl&#39;,&#39;pstk&#39;],</span>
+<span class="go">         where=&#39;ceq &gt; 0 and datadate&gt;=19930104 and datadate&lt;=20991231&#39;)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">keydev</span><span class="o">.</span><span class="n">get_linked</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;keydev&#39;</span><span class="p">,</span> <span class="n">date_field</span><span class="o">=</span><span class="s1">&#39;announcedate&#39;</span><span class="p">,</span>
-<span class="go">           fields=[&#39;companyname&#39;, &#39;keydeveventtypeid&#39;,</span>
-<span class="go">           &#39;keydevtoobjectroletypeid&#39;],</span>
-<span class="go">           where=&#39;&#39;, limit=&#39;&#39;):</span>
+<span class="go">         fields=[&#39;companyname&#39;, &#39;keydeveventtypeid&#39;,</span>
+<span class="go">         &#39;keydevtoobjectroletypeid&#39;],</span>
+<span class="go">         where=&#39;&#39;, limit=&#39;&#39;):</span>
 </pre></div>
 </div>
 <p>Notes:</p>
@@ -195,6 +189,18 @@ also include INDFMT= ‘FS’, CURRENCY=’USD+CAD’, STATUS=’ACTIVE+INACTIVE
 </dl>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="finds.structured.pstat.PSTAT.event">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">event</span></span><a class="headerlink" href="#finds.structured.pstat.PSTAT.event" title="Permalink to this definition"></a></dt>
+<dd><p>Maps keydev event id to description</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="finds.structured.pstat.PSTAT.role">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">role</span></span><a class="headerlink" href="#finds.structured.pstat.PSTAT.role" title="Permalink to this definition"></a></dt>
+<dd><p>Maps keydev role id to description</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -210,7 +216,7 @@ also include INDFMT= ‘FS’, CURRENCY=’USD+CAD’, STATUS=’ACTIVE+INACTIVE
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Terence Lim.</p>
+    <p>&#169; Copyright 2022-2024, Terence Lim.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

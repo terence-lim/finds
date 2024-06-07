@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="finds.structured.finder" href="finds.structured.finder.html" />
+    <link rel="next" title="finds.structured.crsp" href="finds.structured.crsp.html" />
     <link rel="prev" title="finds.structured.benchmarks" href="finds.structured.benchmarks.html" /> 
 </head>
 
@@ -42,15 +42,12 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="finds.database.html">finds.database</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="finds.structured.html">finds.structured</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="finds.structured.structured.html">finds.structured.structured</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.structured.stocks.html">finds.structured.stocks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finds.structured.crsp.html">finds.structured.crsp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finds.structured.pstat.html">finds.structured.pstat</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finds.structured.ibes.html">finds.structured.ibes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finds.structured.benchmarks.html">finds.structured.benchmarks</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">finds.structured.signals</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#finds.structured.signals.Signals"><code class="docutils literal notranslate"><span class="pre">Signals</span></code></a><ul>
@@ -68,18 +65,17 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="finds.structured.finder.html">finds.structured.finder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finds.structured.crsp.html">finds.structured.crsp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finds.structured.pstat.html">finds.structured.pstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finds.structured.ibes.html">finds.structured.ibes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finds.structured.busday.html">finds.structured.busday</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="finds.backtesting.html">finds.backtesting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.unstructured.html">finds.unstructured</a></li>
 <li class="toctree-l1"><a class="reference internal" href="finds.readers.html">finds.readers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.misc.html">finds.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.busday.html">finds.busday</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.finance.html">finds.finance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.econs.html">finds.econs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.filters.html">finds.filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finds.plots.html">finds.plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.recipes.html">finds.recipes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finds.utils.html">finds.utils</a></li>
 </ul>
 
         </div>
@@ -130,7 +126,7 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>label</strong> – Name of signal to retrieve</p></li>
-<li><p><strong>date</strong> – Rebalance date</p></li>
+<li><p><strong>date</strong> – As of this date back through (non-inclusive) start date</p></li>
 <li><p><strong>start</strong> – Non-inclusive start of date range; -1 means exact date</p></li>
 <li><p><strong>rebaldate</strong> – Name of rebalance date column</p></li>
 </ul>
@@ -204,20 +200,28 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="finds.structured.signals.SignalsFrame">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finds.structured.signals.</span></span><span class="sig-name descname"><span class="pre">SignalsFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'permno'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/finds/structured/signals.html#SignalsFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.structured.signals.SignalsFrame" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">finds.structured.signals.</span></span><span class="sig-name descname"><span class="pre">SignalsFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'permno'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rebaldate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rebaldate'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/finds/structured/signals.html#SignalsFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.structured.signals.SignalsFrame" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#finds.structured.signals.Signals" title="finds.structured.signals.Signals"><code class="xref py py-class docutils literal notranslate"><span class="pre">Signals</span></code></a></p>
 <p>Cache dataframe of signals values, provide Signals-like interface</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> – DataFrame input with permno and rebaldate as columns</p></li>
+<li><p><strong>identifer</strong> – column name of permno identifiers</p></li>
+<li><p><strong>rebaldate</strong> – column name of rebalance dates</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="finds.structured.signals.SignalsFrame.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rebaldate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rebaldate'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/finds/structured/signals.html#SignalsFrame.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.structured.signals.SignalsFrame.__call__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/finds/structured/signals.html#SignalsFrame.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#finds.structured.signals.SignalsFrame.__call__" title="Permalink to this definition"></a></dt>
 <dd><p>Select from rebaldates that fall between start and date, keep latest</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>label</strong> – Name of column to return</p></li>
-<li><p><strong>date</strong> – As of this date or possibly earlier</p></li>
+<li><p><strong>date</strong> – As of this date back through (non-inclusive) start date</p></li>
 <li><p><strong>start</strong> – Non-inclusive start date. Set to 0 for all, -1 for exact</p></li>
-<li><p><strong>rebaldate</strong> – Column name containing rebaldate</p></li>
 </ul>
 </dd>
 </dl>
@@ -232,13 +236,13 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="finds.structured.benchmarks.html" class="btn btn-neutral float-left" title="finds.structured.benchmarks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="finds.structured.finder.html" class="btn btn-neutral float-right" title="finds.structured.finder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="finds.structured.crsp.html" class="btn btn-neutral float-right" title="finds.structured.crsp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Terence Lim.</p>
+    <p>&#169; Copyright 2022-2024, Terence Lim.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
